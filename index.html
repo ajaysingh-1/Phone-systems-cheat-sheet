@@ -8,7 +8,7 @@ input[type=text]{flex:1;min-width:180px;font-size:13px}
 select{font-size:13px;padding:6px 10px;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);background:var(--color-background-primary);color:var(--color-text-primary);cursor:pointer}
 .count{font-size:12px;color:var(--color-text-secondary);white-space:nowrap;align-self:center}
 .tbl-wrap{overflow-x:auto;border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg)}
-table{width:100%;border-collapse:collapse;font-size:12px;table-layout:fixed}
+table{width:100%;border-collapse:collapse;font-size:12px;table-layout:auto}
 th{background:var(--color-background-secondary);color:var(--color-text-secondary);font-weight:500;font-size:11px;text-transform:uppercase;letter-spacing:0.04em;padding:10px 12px;border-bottom:0.5px solid var(--color-border-secondary);text-align:left;white-space:nowrap;cursor:pointer;user-select:none}
 th:hover{color:var(--color-text-primary)}
 th.sort-asc::after{content:" ↑"}
@@ -60,7 +60,6 @@ col.c1{width:110px}col.c2{width:70px}col.c3{width:170px}col.c4{width:110px}col.c
 </div>
 <div class="tbl-wrap">
 <table id="tbl">
-<colgroup><col class="c1"><col class="c2"><col class="c3"><col class="c4"><col class="c5"><col class="c6"><col class="c7"><col class="c8"></colgroup>
 <thead>
 <tr>
   <th onclick="sortTable(0)">Platform</th>
@@ -304,3 +303,242 @@ function sortTable(col){
 
 renderRows(data);
 </script>
+
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Salesforce CTI Decision Flow</title>
+<style>
+body {font-family: Arial, sans-serif; line-height:1.5; padding:20px;}
+h1,h2,h3 {margin-top:20px;}
+.section {margin-bottom:25px;}
+.box {border:1px solid #ddd; padding:15px; border-radius:8px; margin-top:10px;}
+.highlight {background:#f5f5f5; padding:10px; border-radius:6px;}
+ul {margin:5px 0 10px 20px;}
+</style>
+</head>
+<body>
+
+<h1>🎯 Salesforce CTI Decision Flow</h1>
+
+<div class="section">
+<h2>Step 1: What type of client is this?</h2>
+
+<div class="box">
+<h3>👉 Small team (1–50 users)</h3>
+<ul>
+<li>Limited budget</li>
+<li>Wants quick setup</li>
+<li>No IT team</li>
+</ul>
+➡️ Go to <b>Step 2A</b>
+</div>
+
+<div class="box">
+<h3>👉 Mid-size (50–300 users)</h3>
+<ul>
+<li>Growing team</li>
+<li>Needs reporting + automation</li>
+</ul>
+➡️ Go to <b>Step 2B</b>
+</div>
+
+<div class="box">
+<h3>👉 Enterprise (300+ users)</h3>
+<ul>
+<li>Multiple teams, regions</li>
+<li>Needs AI, WFM, compliance</li>
+</ul>
+➡️ Go to <b>Step 2C</b>
+</div>
+</div>
+
+<div class="section">
+<h2>Step 2A: SMB (Simple use case)</h2>
+
+<div class="box">
+<b>Ask:</b> Do you want something simple and quick?
+</div>
+
+<div class="box">
+<h3>✅ If YES</h3>
+<ul>
+<li>Aircall</li>
+<li>CloudTalk</li>
+<li>Dialpad</li>
+</ul>
+<div class="highlight">
+Setup in hours<br>
+Native Salesforce integration<br>
+Minimal training
+</div>
+</div>
+
+<div class="box">
+<h3>❗ Cheap/basic</h3>
+<ul>
+<li>Freshdesk</li>
+<li>Zendesk</li>
+</ul>
+</div>
+
+<div class="box">
+<h3>❗ No subscription</h3>
+<ul>
+<li>3CX</li>
+</ul>
+</div>
+</div>
+
+<div class="section">
+<h2>Step 2B: Mid-Market</h2>
+
+<div class="box">
+<b>Ask:</b> Simple or advanced features?
+</div>
+
+<div class="box">
+<h3>✅ Simple + scalable</h3>
+<ul>
+<li>RingCentral</li>
+<li>8x8</li>
+</ul>
+</div>
+
+<div class="box">
+<h3>✅ Sales / AI focused</h3>
+<ul>
+<li>Dialpad</li>
+<li>Talkdesk</li>
+</ul>
+</div>
+
+<div class="box">
+<h3>✅ Salesforce-first</h3>
+<ul>
+<li>Vonage</li>
+</ul>
+</div>
+</div>
+
+<div class="section">
+<h2>Step 2C: Enterprise</h2>
+
+<div class="box">
+<b>Ask:</b> Need full contact center?
+</div>
+
+<div class="box">
+<h3>✅ Yes</h3>
+<ul>
+<li>Genesys</li>
+<li>NICE CXone</li>
+<li>Five9</li>
+</ul>
+</div>
+
+<div class="box">
+<h3>✅ AWS / Service Cloud Voice</h3>
+<ul>
+<li>Amazon Connect</li>
+</ul>
+</div>
+
+<div class="box">
+<h3>✅ Existing infra</h3>
+<ul>
+<li>Cisco</li>
+<li>Avaya</li>
+</ul>
+</div>
+</div>
+
+<div class="section">
+<h2>Step 3: Technical Capability</h2>
+
+<div class="box">
+<b>Ask:</b> Do you have developers?
+</div>
+
+<div class="box">
+<h3>✅ Yes</h3>
+<ul>
+<li>Twilio</li>
+<li>Amazon Connect</li>
+</ul>
+</div>
+
+<div class="box">
+<h3>❌ No</h3>
+<p>Avoid custom tools → use AppExchange solutions</p>
+</div>
+</div>
+
+<div class="section">
+<h2>⚡ Shortcut (Call Script)</h2>
+<ul>
+<li>Simple → Aircall / CloudTalk / Dialpad</li>
+<li>Scalable → RingCentral / 8x8</li>
+<li>Deep Salesforce → Vonage</li>
+<li>Enterprise → Genesys / NICE / Five9</li>
+<li>Custom → Twilio / Amazon Connect</li>
+</ul>
+</div>
+
+<div class="section">
+<h2>🚫 Disqualification Triggers</h2>
+<ul>
+<li>No IT team → Avoid Twilio, Amazon Connect</li>
+<li>Budget &lt; $30 → Avoid Enterprise tools</li>
+<li>Need in 1 week → Avoid Cisco, Avaya, Genesys</li>
+<li>Only basic calling → Avoid NICE, Five9</li>
+</ul>
+</div>
+
+<div class="section">
+<h2>🧠 Key Insights</h2>
+
+<h3>Market Segmentation</h3>
+<ul>
+<li>SMB: Aircall, CloudTalk, Ringover</li>
+<li>Mid: Dialpad, RingCentral, 8x8</li>
+<li>Enterprise: Genesys, Five9, NICE, Cisco, Talkdesk</li>
+<li>Custom: Twilio, Amazon Connect</li>
+</ul>
+
+<h3>Salesforce Integration Strength</h3>
+<ul>
+<li>Top: Genesys, Five9, NICE, Cisco, Talkdesk</li>
+<li>Mid: Aircall, RingCentral, Dialpad, 8x8</li>
+<li>Low: Twilio, 3CX, Mitel</li>
+</ul>
+
+<h3>Free Trial Pattern</h3>
+<ul>
+<li>Free trials: Aircall, Dialpad, CloudTalk, Freshdesk, Ringover</li>
+<li>Demo only: Five9, NICE, Talkdesk, Avaya</li>
+<li>Usage-based: Twilio, Amazon Connect</li>
+</ul>
+
+<h3>Pricing Segmentation</h3>
+<ul>
+<li>Low: Dialpad, RingCentral, CloudTalk, 8x8</li>
+<li>Mid: Aircall, Zendesk, Talkdesk</li>
+<li>Enterprise: Five9, Genesys, NICE</li>
+<li>Custom: Twilio, Amazon Connect, Avaya</li>
+</ul>
+
+<h3>Quick Decision Mapping</h3>
+<ul>
+<li>Startup → Aircall, CloudTalk</li>
+<li>AI-first → Dialpad, Talkdesk</li>
+<li>Enterprise → Genesys, Five9, NICE</li>
+<li>Custom → Twilio, Amazon Connect</li>
+<li>Existing infra → Cisco, Avaya</li>
+</ul>
+
+</div>
+
+</body>
+</html>
