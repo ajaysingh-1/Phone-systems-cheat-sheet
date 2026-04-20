@@ -542,3 +542,554 @@ Minimal training
 
 </body>
 </html>
+
+
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+.wrap{padding:1rem 0;font-family:var(--font-sans)}
+.tier-section{margin-bottom:2rem}
+.tier-header{display:flex;align-items:center;gap:10px;margin-bottom:1rem;padding-bottom:8px;border-bottom:1.5px solid var(--color-border-secondary)}
+.tier-label{font-size:15px;font-weight:500;color:var(--color-text-primary)}
+.tier-count{font-size:12px;color:var(--color-text-secondary);padding:2px 8px;border-radius:20px;border:0.5px solid var(--color-border-secondary)}
+.tbl-wrap{overflow-x:auto;border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg)}
+table{width:100%;border-collapse:collapse;font-size:12px}
+th{background:var(--color-background-secondary);color:var(--color-text-secondary);font-weight:500;font-size:11px;text-transform:uppercase;letter-spacing:0.04em;padding:9px 14px;border-bottom:0.5px solid var(--color-border-secondary);text-align:left;white-space:nowrap}
+td{padding:12px 14px;border-bottom:0.5px solid var(--color-border-tertiary);vertical-align:top;color:var(--color-text-primary);line-height:1.6}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:var(--color-background-secondary)}
+.name{font-weight:500;font-size:13px}
+.sub{font-size:11px;color:var(--color-text-secondary);margin-top:2px}
+.badge{display:inline-block;font-size:10px;padding:2px 8px;border-radius:20px;font-weight:500}
+.ent{background:#E6F1FB;color:#0C447C}
+.mid{background:#EAF3DE;color:#27500A}
+.smb{background:#FAEEDA;color:#633806}
+.dev{background:#EEEDFE;color:#3C3489}
+.leg{background:#F1EFE8;color:#444441}
+.ucs{background:#FAECE7;color:#712B13}
+.feat-cat{font-size:10px;font-weight:500;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:0.05em;margin-top:10px;margin-bottom:4px}
+.feat-cat:first-child{margin-top:0}
+.feat-list{padding-left:14px}
+.feat-list li{margin-bottom:3px;font-size:12px;color:var(--color-text-primary)}
+.plan-row{display:flex;align-items:baseline;gap:6px;margin-bottom:6px}
+.plan-name{font-size:11px;font-weight:500;color:var(--color-text-secondary);min-width:80px}
+.plan-price{font-size:12px;font-weight:500;color:var(--color-text-primary)}
+.plan-note{font-size:11px;color:var(--color-text-secondary)}
+.price-model{font-size:11px;color:var(--color-text-secondary);margin-bottom:8px;padding:5px 8px;background:var(--color-background-secondary);border-radius:var(--border-radius-md);border-left:2px solid var(--color-border-secondary)}
+.pill{display:inline-block;font-size:10px;padding:1px 6px;border-radius:10px;background:var(--color-background-secondary);color:var(--color-text-secondary);border:0.5px solid var(--color-border-tertiary);margin:1px 1px 1px 0}
+.divider{height:0.5px;background:var(--color-border-tertiary);margin:8px 0}
+.controls{display:flex;gap:10px;margin-bottom:1.25rem;flex-wrap:wrap}
+input[type=text]{flex:1;min-width:200px;font-size:13px}
+.tier-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1.5rem}
+.tab{font-size:12px;padding:5px 12px;border-radius:20px;border:0.5px solid var(--color-border-secondary);background:var(--color-background-primary);color:var(--color-text-secondary);cursor:pointer;transition:all 0.15s}
+.tab:hover,.tab.active{background:var(--color-background-secondary);color:var(--color-text-primary);border-color:var(--color-border-primary)}
+.no-results{padding:2rem;text-align:center;color:var(--color-text-secondary);font-size:13px}
+</style>
+
+<div class="wrap">
+<h2 class="sr-only">Detailed features and pricing for top 20 telephony platforms, organised by tier</h2>
+
+<div class="controls">
+  <input type="text" id="search" placeholder="Search platforms, features, pricing..." oninput="render()">
+</div>
+
+<div class="tier-tabs" id="tabs"></div>
+<div id="content"></div>
+</div>
+
+<script>
+const tiers=[
+  {id:"all",label:"All Tiers",cls:""},
+  {id:"Enterprise",label:"Enterprise",cls:"ent"},
+  {id:"Mid-Market",label:"Mid-Market",cls:"mid"},
+  {id:"SMB",label:"SMB",cls:"smb"},
+  {id:"Developer",label:"Developer / API",cls:"dev"},
+  {id:"Legacy",label:"Legacy / On-Premise",cls:"leg"},
+  {id:"UCaaS",label:"UCaaS Extension",cls:"ucs"}
+];
+
+const platforms=[
+  {
+    name:"Genesys Cloud CX",tier:"Enterprise",aka:"",
+    features:{
+      "Inbound Contact Center":["Omnichannel ACD (voice, chat, email, SMS, social, messaging)","Skills-based & priority-based routing","Visual IVR builder (drag-and-drop)","Intelligent call routing with AI","Queue management & callbacks"],
+      "Outbound Dialing":["Predictive, progressive, preview & power dialers","Campaign management","Compliance tools (TCPA, DNC)","Automated outbound messaging"],
+      "AI & Automation":["Genesys AI — conversational bots (voice & digital)","Predictive engagement (proactive customer outreach)","Agent Assist (real-time guidance & next-best-action)","Real-time transcription & sentiment analysis","Knowledge base automation"],
+      "Workforce Management":["Forecasting & scheduling","Intraday management & adherence tracking","Quality management & call scoring","Employee coaching & gamification"],
+      "Analytics & Reporting":["Real-time & historical dashboards","Journey analytics","Custom report builder","Performance KPIs per agent/queue"],
+      "Integrations":["Salesforce (add-on, not included)","Microsoft Teams, Zoom (add-ons)","Amazon Lex & Google CCAI bots","Open APIs & webhooks"]
+    },
+    pricingModel:"Per seat, per month. Annual or multi-year contracts. Salesforce integration is a paid add-on.",
+    plans:[
+      {name:"Cloud CX 1",price:"$75/user/mo",note:"Voice + basic digital channels"},
+      {name:"Cloud CX 2",price:"~$110/user/mo",note:"Adds digital channels + workforce engagement"},
+      {name:"Cloud CX 3",price:"~$150/user/mo",note:"Full suite + advanced WFM + quality"},
+      {name:"Salesforce Add-on",price:"Extra cost",note:"Not included in any base plan"},
+      {name:"AI features",price:"Token/credit based",note:"Usage limits per plan; overage billed"}
+    ]
+  },
+  {
+    name:"NICE CXone",tier:"Enterprise",aka:"CXone Mpower",
+    features:{
+      "Omnichannel Routing":["ACD across voice, email, chat, SMS, social, messaging","Skills-based, priority-based & time-based routing","IVR with speech recognition","Digital self-service portals"],
+      "AI — Enlighten Engine":["Real-time sentiment analysis on every call","AI-driven quality scoring (automatic QA)","Agent coaching recommendations in real-time","Forecasting & capacity planning with AI","Conversational AI virtual agent (Omni-Autopilot)"],
+      "Workforce Engagement Management":["Advanced forecasting & scheduling (Workforce Management)","Quality management & evaluation forms","Screen recording & speech analytics","Employee gamification & performance dashboards"],
+      "Analytics & Reporting":["CXone Analytics — pre-built & custom dashboards","Interaction analytics (text & speech mining)","Voice of the Customer (VoC) tools","Real-time supervisor dashboards"],
+      "Compliance & Security":["PCI DSS, HIPAA, SOC 2 compliance","Call recording with encryption","Access controls & data masking"],
+      "Integrations":["Salesforce CTI adapter (AppExchange)","Microsoft Dynamics, ServiceNow, Zendesk","Open APIs for custom integrations"]
+    },
+    pricingModel:"Per agent, per month. Annual contracts. Pricing tiers by feature package.",
+    plans:[
+      {name:"CXone Digital Agent",price:"~$71/agent/mo",note:"Digital channels only (chat, email, SMS)"},
+      {name:"CXone Voice Agent",price:"~$94/agent/mo",note:"Voice-only agents"},
+      {name:"CXone Omnichannel Agent",price:"~$110/agent/mo",note:"Voice + digital combined"},
+      {name:"Essential Suite",price:"~$135/agent/mo",note:"Adds WFM + QM essentials"},
+      {name:"Core Suite",price:"~$169/agent/mo",note:"Full WFM + QM + analytics"},
+      {name:"Complete Suite",price:"~$209/agent/mo",note:"All features + advanced AI"},
+      {name:"Ultimate Suite",price:"~$249/agent/mo",note:"Full enterprise bundle + VoC"}
+    ]
+  },
+  {
+    name:"Cisco Webex Contact Center",tier:"Enterprise",aka:"Cisco CC",
+    features:{
+      "Omnichannel Routing":["Voice, email, chat, SMS, social media routing","Skills-based & behaviour-based routing","IVR with natural language understanding","Queue management & estimated wait time"],
+      "AI & Automation":["Webex AI Agent (virtual agent for self-service)","Agent Answers (real-time KB suggestions)","Automatic call summarisation","Real-time transcription","Customer journey data insights"],
+      "Workforce Optimization":["Calabrio or Verint WFO integration","Quality management & call scoring","Screen recording & live monitoring","Supervisor real-time dashboards"],
+      "Unified Communications":["Native integration with Webex Calling & Meetings","Persistent messaging (Webex Teams)","Video escalation from voice/chat"],
+      "Security & Compliance":["HIPAA, PCI, GDPR compliance","End-to-end encryption","Enterprise SSO & identity management"],
+      "Integrations":["Salesforce CTI adapter (AppExchange)","Microsoft Teams (certified)","ServiceNow, SAP, Oracle","Full REST API"]
+    },
+    pricingModel:"Fully custom-quoted. No published list prices. Enterprise agreements only.",
+    plans:[
+      {name:"Base platform",price:"Contact Cisco sales",note:"All pricing via direct quote"},
+      {name:"PBX integration add-on",price:"~$8/user/mo",note:"One of few published add-on prices"},
+      {name:"Workforce optimization",price:"~$40/user/mo",note:"Published add-on price"},
+      {name:"AI features",price:"Custom quote",note:"Priced per module/feature"},
+      {name:"Implementation",price:"Significant one-time cost",note:"Professional services mandatory at enterprise scale"}
+    ]
+  },
+  {
+    name:"Avaya",tier:"Enterprise",aka:"Avaya Infinity / Cloud Office",
+    features:{
+      "Two Product Paths":["Avaya Cloud Office: UCaaS for mid-to-large orgs","Avaya Infinity Platform: enterprise-grade CC (formerly Avaya OneCloud)","Both support cloud, hybrid & on-premise deployment"],
+      "Contact Center (Infinity)":["Omnichannel ACD — voice, video, chat, email, SMS, social","AI-powered routing & virtual agents","Workforce engagement management","Advanced analytics & journey orchestration","Composable architecture (mix of cloud & on-prem)"],
+      "UCaaS (Cloud Office)":["Voice calling & HD video conferencing","Team messaging & file sharing","Mobile & desktop apps","Desk phone & headset support"],
+      "AI & Analytics":["Avaya AI — sentiment analysis & agent assist","Real-time & historical reporting","Interaction analytics (speech & text)","Performance dashboards"],
+      "Integrations":["Salesforce CTI adapter","Microsoft Teams integration","CRM connectors (Dynamics, ServiceNow)","Open APIs"],
+      "Security":["HIPAA, PCI, GDPR, FedRAMP compliance","On-premise data residency options for regulated industries"]
+    },
+    pricingModel:"Fully custom-quoted for both products. No published list pricing.",
+    plans:[
+      {name:"Cloud Office",price:"Custom quote",note:"UCaaS path — comparable to mid-market UCaaS vendors"},
+      {name:"Infinity Platform",price:"Custom quote",note:"Enterprise CC — large commitment, complex deal"},
+      {name:"Hybrid deployment",price:"Custom quote",note:"Mix of cloud + on-prem licensing"},
+      {name:"Professional services",price:"Significant",note:"Implementation & migration costs are substantial"}
+    ]
+  },
+  {
+    name:"Five9",tier:"Enterprise",aka:"",
+    features:{
+      "Inbound Contact Center":["ACD with skills-based, priority & data-directed routing","Visual IVR (drag-and-drop builder)","Intelligent Virtual Agent (IVA) — conversational AI for self-service","Screen pop on inbound call (CTI)","Estimated wait time & callback options"],
+      "Outbound Dialing":["Predictive dialer — maximises agent talk time","Progressive dialer — calls one at a time per agent","Preview dialer — agent reviews record before call","Power dialer — auto-dials without pause","TCPA & DNC compliance tools","Answering machine detection"],
+      "AI & Automation":["Agent Assist — real-time transcription + guidance cards","Conversational IVA (voice & digital)","Sentiment analysis & intent detection","Automated call summaries","Digital Outreach — SMS/email follow-up on missed calls"],
+      "Omnichannel":["Voice, email, live chat, SMS/MMS, social messaging","Unified agent desktop (all channels in one view)","Channel blending (agents handle multiple channel types)"],
+      "Workforce Management":["Forecasting, scheduling & intraday management","Quality management & call recording","Performance dashboards & coaching tools"],
+      "Integrations":["Salesforce (AppExchange + Service Cloud)","Microsoft Dynamics, ServiceNow, Zendesk","REST APIs & webhooks","Pre-built CRM adaptors"]
+    },
+    pricingModel:"Per user, per month. 50-user minimum across all plans. Annual or 36-month contracts common. Add-ons billed separately.",
+    plans:[
+      {name:"Digital",price:"$119/user/mo",note:"Digital channels only — no voice. Chat, email, SMS, social."},
+      {name:"Core",price:"$149/user/mo",note:"Voice + basic digital + standard IVR"},
+      {name:"Premium",price:"Contact sales",note:"Adds Essential QM + workforce tools"},
+      {name:"Optimum",price:"$199/user/mo",note:"Enterprise WFM + advanced QM"},
+      {name:"Ultimate",price:"$229/user/mo",note:"Full suite + advanced analytics + AI"},
+      {name:"IVA add-on",price:"Custom quote",note:"Intelligent Virtual Agent (AI self-service)"},
+      {name:"Agent Assist add-on",price:"Custom quote",note:"Real-time AI guidance during calls"},
+      {name:"Video Sharing add-on",price:"Custom quote",note:"Customer can share video with agent"}
+    ]
+  },
+  {
+    name:"Amazon Connect",tier:"Enterprise",aka:"AWS Connect / Service Cloud Voice",
+    features:{
+      "Core Platform":["Cloud-native contact center on AWS infrastructure","Pay-as-you-go — no per-seat license, no long-term contract","Omnichannel: voice, chat, tasks","Contact Lens — built-in conversation analytics","Visual flow builder (Contact Flows) for IVR & routing"],
+      "AI & ML (AWS Native)":["Amazon Lex — conversational AI chatbots & IVR","Amazon Transcribe — real-time call transcription","Amazon Comprehend — sentiment & intent analysis","Amazon Polly — text-to-speech for IVR prompts","Forecasting & scheduling (Amazon Connect Forecasting)","Agent Assist powered by Amazon Q"],
+      "Salesforce Integration":["Salesforce Service Cloud Voice — Salesforce's preferred native partner","CTI screen pop inside Salesforce","Real-time transcription in Salesforce Agent Console","Einstein AI works alongside Amazon Connect data"],
+      "Workforce Management":["Built-in forecasting & scheduling","Real-time dashboards","Quality reviews & call recording","Agent performance metrics"],
+      "Customisation":["AWS Lambda for custom business logic","DynamoDB & S3 for data storage","Fully open API — build anything","EventBridge for event-driven automations"],
+      "Security":["HIPAA, PCI DSS, SOC 2, FedRAMP","Data residency in chosen AWS region","IAM-based access controls"]
+    },
+    pricingModel:"100% pay-as-you-go. No seat licenses. Charged per minute of usage, per chat message, and per feature enabled. Additional AWS service costs apply (Lambda, S3, Lex, Transcribe billed separately).",
+    plans:[
+      {name:"Inbound voice",price:"$0.018/min",note:"Per minute of inbound voice usage"},
+      {name:"Outbound voice",price:"$0.025/min",note:"Per minute of outbound voice usage"},
+      {name:"Chat",price:"$0.004/message",note:"Per chat message"},
+      {name:"Amazon Lex (bot)",price:"Separate AWS cost",note:"Per request to Lex service"},
+      {name:"Contact Lens (analytics)",price:"$0.015/min analysed",note:"Conversation analytics add-on"},
+      {name:"Forecasting & scheduling",price:"$0.011/agent/hr",note:"WFM capability add-on"},
+      {name:"Service Cloud Voice licence",price:"Via Salesforce",note:"Salesforce licences the SF-Connect integration"}
+    ]
+  },
+  {
+    name:"Talkdesk",tier:"Mid-Market",aka:"",
+    features:{
+      "Core Contact Center":["Omnichannel ACD — voice, chat, email, SMS, social","Talkdesk Studio — no-code visual call flow & routing builder","Smart routing (skills-based, data-driven, AI-powered)","IVR with speech recognition","Screen pop & CTI"],
+      "AI Suite":["Copilot — real-time agent guidance & next-best-action cards","Autopilot — AI virtual agent for voice & digital self-service","Navigator — AI-powered intelligent routing","Automatic call summarisation & wrap-up","Sentiment analysis & topic detection"],
+      "Workforce Engagement":["Quality management & call scoring","Workforce management (forecasting & scheduling)","Screen recording & live monitoring","Agent performance coaching"],
+      "Analytics":["Talkdesk Explore — pre-built & custom dashboards","Real-time reporting","Historical interaction analytics","Customer journey tracking"],
+      "Integrations":["Salesforce (dedicated AppExchange package)","Zendesk, ServiceNow, Freshdesk","Microsoft Teams, Slack","80+ pre-built integrations"],
+      "Deployment":["99.99% uptime SLA","Number porting support","HIPAA, PCI, GDPR, SOC 2 compliance"]
+    },
+    pricingModel:"Per user, per month. Annual contracts. AI features included in higher tiers. Add-ons for advanced modules.",
+    plans:[
+      {name:"CX Cloud Essentials",price:"~$85/user/mo",note:"Voice + basic digital + core routing"},
+      {name:"CX Cloud Elevate",price:"~$115/user/mo",note:"Adds QM + digital engagement + AI assist"},
+      {name:"CX Cloud Elite",price:"~$145/user/mo",note:"Full suite + WFM + advanced analytics"},
+      {name:"Experience Clouds",price:"Custom quote",note:"Industry-specific bundles (Financial Services, Healthcare, Retail)"},
+      {name:"AI add-ons",price:"Custom quote",note:"Autopilot virtual agent, Navigator — priced separately on lower tiers"}
+    ]
+  },
+  {
+    name:"RingCentral",tier:"Mid-Market",aka:"RingEX / RingCX",
+    features:{
+      "UCaaS — RingEX":["Unlimited US & Canada calling on all plans","HD video conferencing (up to 200 participants)","Team messaging & document sharing","Voicemail-to-text & visual voicemail","AI meeting summaries & transcription","Call queues & auto-attendant (IVR)","Business SMS & fax"],
+      "CCaaS — RingCX":["Omnichannel contact center (20+ channels)","AI-powered routing","Agent assist & real-time transcription","Workforce engagement management","Real-time supervisor dashboards"],
+      "Call Management":["Call recording (automatic — Advanced plan+)","Call monitoring, whisper & barge","Advanced call analytics","Call handling rules & business hours","Hot desking & shared lines"],
+      "AI Features (included)":["RingCentral AI Assistant — on all plans","Real-time transcription & post-call summaries","AI-generated meeting highlights & keywords","Searchable call & meeting archive"],
+      "Integrations":["Salesforce (Advanced plan+)","Microsoft 365 & Teams (license-free on all plans)","Google Workspace","HubSpot, Zendesk, ServiceNow","350+ AppExchange & API integrations"]
+    },
+    pricingModel:"RingEX: per user/month, annual billing. RingCX (contact center): separate per-agent pricing. Salesforce integration requires Advanced plan minimum.",
+    plans:[
+      {name:"RingEX Core",price:"$20/user/mo",note:"Annual. Unlimited calls, voicemail-to-text, 25 SMS/user/mo"},
+      {name:"RingEX Advanced",price:"$25/user/mo",note:"Annual. Adds auto call recording, Salesforce/HubSpot/Zendesk CRM integration"},
+      {name:"RingEX Ultra",price:"$35/user/mo",note:"Annual. Adds 10,000 toll-free minutes + unlimited file/recording storage"},
+      {name:"Customer Engagement Bundle",price:"Custom quote",note:"RingEX Ultra + SMS Booster + Call Queues Booster"},
+      {name:"RingCX (CCaaS)",price:"From $65/agent/mo",note:"Contact center product — separate from RingEX, quote-based above entry level"}
+    ]
+  },
+  {
+    name:"8x8",tier:"Mid-Market",aka:"8x8 Work / 8x8 Contact Center",
+    features:{
+      "UCaaS — 8x8 Work":["Unlimited calling in 48+ countries (higher tiers)","HD video meetings","Team messaging","Voicemail & voicemail transcription","Auto-attendant & IVR","Business SMS"],
+      "CCaaS — 8x8 Contact Center":["Omnichannel routing (voice, chat, email, SMS, social)","Skills-based, priority & data-driven routing","IVR with speech recognition","Outbound dialer (preview & progressive)","Customer journey analytics"],
+      "AI Features":["Intelligent IVR with NLU","Real-time transcription & sentiment analysis","Agent coaching in real-time","Automated quality management","AI-powered self-service"],
+      "Workforce Engagement":["Workforce management (forecasting & scheduling)","Quality monitoring & screen recording","Performance management dashboards","Supervisor live coaching tools"],
+      "Global Reach":["Local numbers in 55+ countries","Unlimited calling to 48 countries (X4+)","PSTN replacement globally","Multi-country compliance (GDPR, HIPAA)"],
+      "Integrations":["Salesforce (AppExchange)","Microsoft Teams (certified integration)","CRM & helpdesk connectors","Open APIs"]
+    },
+    pricingModel:"Custom-quoted per deployment. No published list pricing. Annual contracts. Bundled UCaaS + CCaaS pricing available.",
+    plans:[
+      {name:"X2 (Work/UCaaS)",price:"~$28/user/mo",note:"Approx. Annual. Unlimited calls in 14 countries. Video + messaging."},
+      {name:"X4 (Work/UCaaS)",price:"~$57/user/mo",note:"Approx. Unlimited calls in 48 countries. Full analytics."},
+      {name:"X6 (CC Basic)",price:"Custom quote",note:"Voice contact center + UCaaS"},
+      {name:"X7 (CC Omnichannel)",price:"Custom quote",note:"Adds digital channels"},
+      {name:"X8 (CC Elite)",price:"Custom quote",note:"Full suite + WFM + advanced AI"},
+      {name:"Negotiated enterprise",price:"$18K–$55K/yr per 100 users",note:"Typical negotiated range based on market data"}
+    ]
+  },
+  {
+    name:"Dialpad",tier:"Mid-Market",aka:"Dialpad Ai Voice / Dialpad Support",
+    features:{
+      "AI — Core Differentiator":["Real-time transcription on every call (all plans)","Real-time sentiment analysis","Ai CSAT — predicts customer satisfaction score automatically","Ai Coaching — live talk tips during calls","Ai Recaps — automatic post-call summaries & action items","Keyword & competitor mentions alerts"],
+      "UCaaS (Dialpad Ai Voice)":["Unlimited calling & SMS (US & Canada)","HD video conferencing (Dialpad Meetings)","Team messaging","Voicemail transcription","Multi-level auto-attendant & IVR","Number porting"],
+      "CCaaS (Dialpad Support/Sell)":["Omnichannel: voice, SMS, chat","Skills-based & AI-powered routing","Power dialer (Sell product)","Live agent coaching for supervisors","Real-time dashboards"],
+      "Analytics":["Native AI analytics (no extra cost)","Call volume & resolution reports","CSAT tracking","Agent performance leaderboards"],
+      "Integrations":["Salesforce (AppExchange — Pro plan+)","HubSpot, Zendesk, Salesforce, ServiceNow","Google Workspace & Microsoft 365","100+ pre-built connectors","Open REST API"]
+    },
+    pricingModel:"Per user/month, annual billing. AI features are included by default — not add-ons. Salesforce integration on Pro plan and above.",
+    plans:[
+      {name:"Standard",price:"$15/user/mo",note:"Annual. Unlimited calls, AI transcription, basic integrations"},
+      {name:"Pro",price:"$25/user/mo",note:"Annual. Adds Salesforce + CRM integrations, multiple office locations, international SMS"},
+      {name:"Enterprise",price:"Custom quote",note:"Adds SSO, data retention policies, SLA, priority support"},
+      {name:"Contact Center (Support)",price:"From $95/agent/mo",note:"Omnichannel CC with full AI suite"},
+      {name:"Sales Dialer (Sell)",price:"From $60/user/mo",note:"Power dialer + AI coaching for outbound sales teams"}
+    ]
+  },
+  {
+    name:"Vonage",tier:"Mid-Market",aka:"Vonage Business Communications / Vonage Contact Center",
+    features:{
+      "Vonage Contact Center (Salesforce-Native)":["Built natively on Salesforce — no separate desktop","Lives entirely within Salesforce Sales/Service Cloud UI","Automatic call logging to Salesforce objects","Screen pop on inbound (contacts, leads, cases)","Click-to-dial from any Salesforce record","Real-time Salesforce data during calls"],
+      "UCaaS — Vonage Business Communications":["Unlimited calling & SMS","HD video (via Amazon Chime Pro)","Team messaging","Multi-level auto-attendant & IVR","Call recording & voicemail transcription","Mobile & desktop apps"],
+      "Omnichannel (CC)":["Voice, chat, email, SMS in unified desktop","Digital engagement tools","Campaign management for outbound"],
+      "AI Features":["Call transcription & summaries","Sentiment analysis","Conversational AI integration options","Real-time agent guidance"],
+      "CPaaS Layer":["Vonage APIs for SMS, voice, video, authentication","Programmable communications for custom builds","In-app messaging & calling via SDK"],
+      "Integrations":["Salesforce — native (CC product built on SF)","Microsoft Teams, Slack","HubSpot, Zendesk, Bullhorn","80+ pre-built integrations","Full REST API"]
+    },
+    pricingModel:"UCaaS: per line/month. Contact Center: custom-quoted. Salesforce-native CC is a separate, more premium product.",
+    plans:[
+      {name:"VBC Mobile",price:"$13.99/line/mo",note:"Annual. Mobile + desktop app only. Basic calling."},
+      {name:"VBC Premium",price:"$20.99/line/mo",note:"Annual. Adds video, CRM integration, desk phones"},
+      {name:"VBC Advanced",price:"$27.99/line/mo",note:"Annual. Adds call recording, visual voicemail, on-demand recording"},
+      {name:"Vonage CC (Salesforce)",price:"Custom quote",note:"Full contact center — priced per agent, annual contract"},
+      {name:"CPaaS APIs",price:"Pay-as-you-go",note:"SMS from $0.0079/msg, Voice from $0.013/min"}
+    ]
+  },
+  {
+    name:"Aircall",tier:"SMB",aka:"",
+    features:{
+      "Core Calling":["Click-to-dial from any web page or CRM","Inbound call routing with IVR","Call queuing & warm/cold transfer","Call recording (auto or on-demand)","Voicemail & voicemail drop","Business hours & call overflow rules"],
+      "Sales Features":["Power dialer — auto-dial list with no manual effort","Voicemail drop — pre-record & drop at click","Hubspot, Salesforce & Pipedrive automatic call logging","Click-to-call from CRM records","Disposition codes & call tagging"],
+      "Coaching & QA":["Call whisper — supervisor speaks to agent secretly","Call barging — supervisor joins live call","Call monitoring — silent listen","Call recording review & annotation"],
+      "Analytics":["Real-time activity dashboard","Call volume, wait time, missed call reports","Team & individual agent stats","Analytics+ add-on for deeper insights"],
+      "Integrations":["Salesforce (Professional plan+)","HubSpot, Pipedrive, Zendesk (Essentials+)","Slack, Intercom, Zapier","100+ native integrations"],
+      "Admin":["Number porting & new numbers in 100+ countries","Business hours & routing rules","User & team management","SSO (Enterprise only)"]
+    },
+    pricingModel:"Per license/month (not per user — one license = one phone line). 3-license minimum on all plans. Salesforce only on Professional plan. AI is a paid add-on.",
+    plans:[
+      {name:"Essentials",price:"$30/license/mo",note:"Annual (or $40/mo monthly). Basic integrations (HubSpot, Zendesk, Pipedrive). No Salesforce. No call recording on lowest tier."},
+      {name:"Professional",price:"$50/license/mo",note:"Annual (or $70/mo monthly). Adds Salesforce, Power Dialer, Voicemail Drop, Advanced Analytics (up to 6 months), Coaching."},
+      {name:"Custom / Enterprise",price:"Custom quote",note:"Minimum 25 licenses. Unlimited analytics, API developer support, premium onboarding, priority support."},
+      {name:"AI Assist add-on",price:"$9/user/mo",note:"Basic AI transcription & summaries"},
+      {name:"AI Assist Pro add-on",price:"$49/user/mo",note:"Full AI coaching, scoring & sentiment"},
+      {name:"Analytics+ add-on",price:"$15/user/mo",note:"Extended analytics beyond base plan limits"},
+      {name:"Minimum spend",price:"$90/mo (annual)",note:"3 × $30 minimum floor on cheapest plan"}
+    ]
+  },
+  {
+    name:"CloudTalk",tier:"SMB",aka:"",
+    features:{
+      "Call Center Core":["Inbound & outbound call routing","Smart IVR (drag-and-drop builder)","Skill-based & VIP routing","Interactive automatic call distribution (ACD)","Call queuing with real-time queue stats","Call recording & transcription"],
+      "Outbound Dialing":["Power dialer — automated sequential dialing","Parallel dialer — multiple simultaneous lines","Smart dialer — auto-detect numbers from web pages","Predictive dialer (higher tiers)","Campaign management"],
+      "Analytics":["Real-time agent & queue dashboards","Historical call analytics","Custom reporting & data exports","Call tagging & disposition tracking"],
+      "International":["Numbers in 140+ countries","Local, toll-free & mobile numbers","International call rates","Global infrastructure for call quality"],
+      "Coaching & QA":["Live call monitoring (listen, whisper, barge)","Call recording review","Agent performance scoring"],
+      "Integrations":["Salesforce (Expert plan only)","HubSpot, Pipedrive, Zendesk (lower plans)","Intercom, Freshdesk, Copper","40+ CRM & helpdesk integrations","REST API & webhooks"]
+    },
+    pricingModel:"Per user/month, annual billing. No minimum seat requirement. Salesforce integration locked to Expert plan. Add-ons for dialers and outbound software.",
+    plans:[
+      {name:"Starter",price:"$25/user/mo",note:"Annual (or $34/mo monthly). Unlimited inbound/intracompany calls, click-to-call, voicemail, basic IVR, basic integrations (not Salesforce)"},
+      {name:"Essential",price:"$29/user/mo",note:"Annual. Adds advanced analytics, open API, Zapier, 50+ integrations (not Salesforce)"},
+      {name:"Expert",price:"$49/user/mo",note:"Annual. Adds Salesforce integration, Power dialer, Wallboard, Monitoring, custom reporting, Salesforce/Pipedrive/HubSpot sync"},
+      {name:"Custom",price:"Custom quote",note:"Enterprise volume. Custom onboarding, SLA, dedicated account manager"},
+      {name:"Power/Parallel dialer",price:"Add-on",note:"Available on Expert or as paid add-on on lower plans"},
+      {name:"AI transcription",price:"Add-on",note:"Priced separately on non-Expert plans"}
+    ]
+  },
+  {
+    name:"Ringover",tier:"SMB",aka:"",
+    features:{
+      "Calling":["Unlimited calls to 110+ destinations (all plans)","IVR (single-level on Smart, advanced on higher tiers)","Call recording","Call forwarding & transfer","Business hours & voicemail","Click-to-call browser extension"],
+      "Outbound Sales":["Auto-dialer (Business plan+)","Predictive dialer (Advanced plan)","Power dialer (Advanced plan)","Call campaigns & dispositions"],
+      "AI — Empower Add-on":["Real-time AI transcription (included on Smart plan)","AI call summaries & action items","Sentiment analysis","Keyword detection & alerts","Topic detection across calls"],
+      "Analytics":["Call logs & history","Real-time team activity dashboard","Performance reports per agent/team","Advanced analytics (higher tiers)"],
+      "Omnichannel (Add-on)":["SMS & WhatsApp Business messaging","Email","Unified inbox across channels"],
+      "Integrations":["Salesforce (Business plan+, not on Smart)","HubSpot, Pipedrive, Zendesk","90+ 1-click CRM connectors","REST API","Zapier & Make (formerly Integromat)"]
+    },
+    pricingModel:"Per user/month, annual billing. No seat minimum. Salesforce not available on cheapest Smart plan. AI and Omnichannel are separate paid add-ons.",
+    plans:[
+      {name:"Smart",price:"$24/user/mo",note:"Annual. Unlimited calls to 110+ countries, basic IVR, call recording, AI transcription included, basic integrations (not Salesforce)"},
+      {name:"Business",price:"$44/user/mo",note:"Annual. Adds Salesforce integration, advanced IVR, auto-dialer, 2 integrations included, skill-based routing"},
+      {name:"Advanced",price:"$54/user/mo",note:"Annual. Adds predictive/power dialer, call campaigns, advanced analytics, 3 integrations"},
+      {name:"AI (Empower) add-on",price:"Separate cost",note:"Full AI features beyond basic transcription"},
+      {name:"Omnichannel add-on",price:"Separate cost",note:"SMS, WhatsApp, email unified inbox — not included in any base plan"}
+    ]
+  },
+  {
+    name:"Freshdesk Contact Center",tier:"SMB",aka:"Freshcaller",
+    features:{
+      "Core Calling":["Cloud-based phone system with no hardware required","Inbound & outbound calling","Smart IVR (multi-level, drag-and-drop)","Automatic call distribution (ACD)","Call routing by agent skill/availability","Call recording & voicemail"],
+      "Productivity":["Warm & cold transfers","Parallel calls","Call conferencing","After-call work (ACW) timer","Agent availability management","Mobile app for iOS & Android"],
+      "AI Features":["Voicebot / AI-powered IVR (Freddy AI)","Automatic call transcription (paid plans)","Post-call notes via AI"],
+      "Analytics":["Call volume reports","Agent performance dashboards","Queue analytics","SLA monitoring"],
+      "Freshworks Integration":["Native integration with Freshdesk (ticketing)","Native integration with Freshsales (CRM)","Unified view across voice + tickets + CRM","Salesforce integration available"],
+      "Admin":["Numbers in 90+ countries","Pay-as-you-go call charges (in addition to seat fee)","Free plan available (limited)","HIPAA & GDPR compliance"]
+    },
+    pricingModel:"Per agent/month plus separate pay-as-you-go call charges. Free plan available. Annual billing for discounts.",
+    plans:[
+      {name:"Free",price:"$0",note:"Up to 3 agents. Basic inbound calling, no IVR. Call charges apply."},
+      {name:"Growth",price:"$15/agent/mo",note:"Annual. Smart IVR, advanced routing, call recording (2 months storage), Freshdesk & Salesforce integration"},
+      {name:"Pro",price:"$39/agent/mo",note:"Annual. Adds holiday routing, callback from queue, abandonment reports, co-browsing"},
+      {name:"Enterprise",price:"$69/agent/mo",note:"Annual. Adds voicebot (Freddy AI), advanced call recording compliance, custom MSA"},
+      {name:"Call charges",price:"Pay-as-you-go",note:"Billed per minute on top of seat fee. Rates vary by country."},
+      {name:"Omnichannel Bundle",price:"Freshdesk pricing",note:"Voice included when buying Freshdesk Omnichannel — not standalone"}
+    ]
+  },
+  {
+    name:"Zendesk Talk",tier:"SMB",aka:"Zendesk Voice",
+    features:{
+      "Core (Bundled with Zendesk Suite)":["Inbound call management embedded in Zendesk Agent Workspace","Automatic ticket creation from every call","Call recording linked to ticket","Voicemail-to-ticket (audio + transcription)","IVR (single & multi-level)","Business hours & call overflow routing"],
+      "Agent Experience":["Caller ID & screen pop from Zendesk customer records","Click-to-call from ticket/contact","Warm & cold transfer","Conference calling","After-call work & disposition notes (via ticket)"],
+      "AI (via Zendesk AI)":["Zendesk Answer Bot — automated responses to common queries","Intent detection for call routing","AI-generated ticket summaries","Sentiment classification on tickets"],
+      "Supervisor Tools":["Live call monitoring","Agent availability view","Real-time queue dashboard","Call volume & wait time reports"],
+      "Limitations":["Not a standalone product — requires Zendesk Suite","Limited outbound dialing capability vs pure CCaaS","No native outbound campaign/dialer","Minimal Salesforce co-deployment (overlapping platforms)"]
+    },
+    pricingModel:"Not a standalone product. Priced as part of Zendesk Suite. Talk is included in Suite plans; advanced Talk features require Partner Edition add-on.",
+    plans:[
+      {name:"Suite Team",price:"~$55/agent/mo",note:"Annual. Includes Talk Lite (inbound only, limited minutes)"},
+      {name:"Suite Growth",price:"~$89/agent/mo",note:"Annual. Includes Talk with more features"},
+      {name:"Suite Professional",price:"~$115/agent/mo",note:"Annual. Full Talk capabilities + analytics"},
+      {name:"Suite Enterprise",price:"Custom quote",note:"Advanced customisation & dedicated support"},
+      {name:"Talk Partner Edition",price:"Add-on cost",note:"For integrating third-party telephony (e.g. Talkdesk, Five9) into Zendesk"},
+      {name:"Note",price:"—",note:"Pricing above is for Zendesk Suite — Talk is not priced separately. Verified pricing always from Zendesk directly."}
+    ]
+  },
+  {
+    name:"Twilio Flex",tier:"Developer",aka:"Twilio Flex Contact Center",
+    features:{
+      "Programmable Platform":["Fully white-labelled, custom-built contact center","Every UI element customisable via React components","Custom business logic via Twilio Functions (serverless JS)","Build any channel: voice, SMS, WhatsApp, chat, video, email","No vendor lock-in on features — you build exactly what you need"],
+      "Channels (all via Twilio APIs)":["Voice (Twilio Voice API)","SMS & MMS (Twilio Messaging)","WhatsApp Business","Chat & web messaging","Video (Twilio Video API)","Email (via SendGrid)"],
+      "AI & Automation":["Integration with any AI provider (Google CCAI, Amazon Lex, OpenAI)","Real-time transcription via Twilio Intelligence","Sentiment analysis add-on","Custom AI workflows via Functions"],
+      "Salesforce Integration":["Open CTI integration — custom development required","Salesforce screen pop, call logging via custom code","Not plug-and-play — developer resource needed"],
+      "Analytics":["Twilio Flex Insights — out-of-the-box dashboards","Custom analytics via data export to data warehouse","TaskRouter for intelligent work distribution & reporting"],
+      "Infrastructure":["Twilio global carrier network","99.95% uptime SLA","HIPAA, PCI, SOC 2, GDPR compliance","Number porting & local numbers in 100+ countries"]
+    },
+    pricingModel:"Two pricing models. Choose per-hour (variable, usage-based) or per-named-user (flat, predictable). Communication costs billed separately via Twilio APIs (voice per minute, SMS per message). Free trial: 5,000 active user hours.",
+    plans:[
+      {name:"Per-hour model",price:"$1.00/active user/hr",note:"Pay only when agents are active (logged in). Best for variable/seasonal usage. Approx. $150–$160/agent/mo at 5 hrs/day."},
+      {name:"Per-named-user model",price:"$150/named user/mo",note:"Flat monthly fee regardless of hours worked. Best for full-time agents with predictable usage."},
+      {name:"Free trial",price:"$0",note:"5,000 active user hours — enough for meaningful pilot testing"},
+      {name:"Voice calls",price:"~$0.013/min",note:"Twilio Voice API billed separately on top of Flex fee"},
+      {name:"SMS",price:"~$0.0079/msg",note:"Twilio Messaging billed separately"},
+      {name:"AI Transcription",price:"~$0.05/min",note:"Twilio Intelligence billed separately"},
+      {name:"Note",price:"—",note:"Total cost = Flex seat fee + API usage. Requires developer resource for setup, customisation & ongoing maintenance."}
+    ]
+  },
+  {
+    name:"3CX",tier:"Legacy",aka:"3CX PBX",
+    features:{
+      "PBX Core":["Software-based PBX — runs on Windows, Linux or in cloud","Full VoIP telephony (SIP-based)","Auto-attendant & multi-level IVR","Call queues & ring groups","Call recording & voicemail","Hot desking & extension management"],
+      "Unified Communications":["Web-based & desktop client","Mobile app (iOS & Android)","Video conferencing (built-in, no extra cost)","Live chat & messaging","WhatsApp Business integration","SMS messaging"],
+      "Deployment Options":["Self-hosted on-premise (Windows/Linux)","Hosted on your own cloud (AWS, Azure, Google Cloud)","3CX-hosted cloud option","Hybrid setups"],
+      "Contact Center Features":["Call centre module with wallboard","Agent login/logout from queue","Listen-in, whisper & barge","SLA alerting on queue wait times","CRM integration for screen pop"],
+      "Integrations":["Salesforce via Open CTI / third-party connector","Microsoft 365 & Teams (limited)","HubSpot, Freshdesk, Zoho CRM","REST API for custom integrations","TAPI/CSTA for traditional PBX integration"],
+      "Limits vs CCaaS":["No native omnichannel digital engagement (email/social)","No AI features natively","No built-in workforce management","Advanced analytics require third-party tools"]
+    },
+    pricingModel:"Annual per-installation license (not per user like SaaS). Free for very small deployments (up to 8 simultaneous calls on Free plan). Cost based on simultaneous calls, not seats.",
+    plans:[
+      {name:"Free",price:"$0/year",note:"Up to 8 simultaneous calls. Limited to 1 year, then must upgrade. Basic PBX only."},
+      {name:"Small Business",price:"~$175/yr",note:"16 simultaneous calls. Core PBX + UC features."},
+      {name:"Professional",price:"~$295/yr",note:"16 calls. Adds CRM integration, Call Centre module, advanced IVR."},
+      {name:"Enterprise",price:"~$330/yr",note:"16 calls. Adds Microsoft Teams integration, skill-based routing, custom IP phone provisioning."},
+      {name:"Scale-up",price:"Higher tiers available",note:"32, 64, 128, 256+ simultaneous calls — priced proportionally"},
+      {name:"Note",price:"—",note:"Pricing is per installation, not per user. Very cost-effective at scale vs per-seat SaaS. Hosted 3CX option adds cloud hosting fees."}
+    ]
+  },
+  {
+    name:"Mitel",tier:"Legacy",aka:"Mitel MiCloud / MiVoice",
+    features:{
+      "Two Product Lines":["MiCloud Connect: cloud UCaaS for SMB/mid-market","MiVoice Business: on-premise/hybrid PBX for enterprise","Both support voice, video, messaging & collaboration"],
+      "UCaaS (MiCloud Connect)":["Unlimited calling (US & Canada)","HD video conferencing","Team messaging & file sharing","Auto-attendant & IVR","Mobile & desktop apps","Call recording"],
+      "Contact Center (MiContact Center)":["Omnichannel routing (voice, email, chat, SMS, social)","Workforce management","Quality management & call recording","Real-time & historical reporting","Outbound dialing"],
+      "On-Premise / Hybrid":["MiVoice Business PBX — runs on dedicated hardware or VM","Flexible cloud + on-prem hybrid architecture","Data residency control for regulated industries","Migration path from on-prem to cloud"],
+      "Integrations":["Salesforce via Open CTI / middleware connector","Microsoft Teams & 365","CRM connectors (Dynamics, Salesforce, Zoho)","REST API for custom development"],
+      "Industries":["Strong in healthcare, government, hospitality & education","Compliance: HIPAA, PCI, GDPR"]
+    },
+    pricingModel:"Fully custom-quoted for all products and deployment types. No published pricing. Annual contracts. Professional services for implementation.",
+    plans:[
+      {name:"MiCloud Connect",price:"Custom quote",note:"UCaaS — comparable to mid-market UCaaS pricing"},
+      {name:"MiVoice Business",price:"Custom quote",note:"On-premise PBX — one-time + annual maintenance licensing"},
+      {name:"MiContact Center",price:"Custom quote",note:"Per-agent pricing, annual contract"},
+      {name:"Hybrid deployment",price:"Custom quote",note:"Mix of on-prem + cloud licensing"},
+      {name:"Note",price:"—",note:"Best suited for orgs already using Mitel on-prem looking to migrate. Not recommended for greenfield Salesforce implementations — integration requires middleware."}
+    ]
+  },
+  {
+    name:"Zoom Phone / Zoom Contact Center",tier:"UCaaS",aka:"",
+    features:{
+      "Zoom Phone":["Extends Zoom Meetings platform into business calling","Unlimited domestic calling (US & Canada on Unlimited plan)","Voicemail with transcription","Call recording","Auto-attendant & IVR","Call queues & ring groups","Call delegation & shared lines","Hot desking","Nomadic 911 (US)","Desk phone support (100+ compatible devices)"],
+      "Zoom Contact Center":["Omnichannel routing: voice, video, SMS, web chat","AI-powered routing & intelligent IVR","Video-first contact center (unique differentiator — escalate any call to video)","Agent desktop with customer history","Real-time supervisor dashboards","Workforce management (Zoom WFM add-on)"],
+      "AI Features":["Zoom AI Companion — meeting & call summaries (included on most plans)","Real-time transcription","Sentiment analysis","Post-call AI notes","Voicemail AI summaries"],
+      "Integrations":["Salesforce AppExchange package","Microsoft Teams (Zoom Phone integration)","Google Workspace","HubSpot, ServiceNow, Zendesk","2,000+ app integrations via Zoom App Marketplace"],
+      "Deployment":["100% cloud, no hardware required","Familiar Zoom UI = minimal agent training","Single vendor for meetings + phone + CC","99.999% uptime SLA"]
+    },
+    pricingModel:"Per user/month for Zoom Phone. Zoom Contact Center is separately priced per agent. Annual billing standard.",
+    plans:[
+      {name:"Phone Metered",price:"$10/user/mo",note:"Annual. Metered outbound calling (pay per minute). Unlimited inbound."},
+      {name:"Phone Unlimited US/CA",price:"$15/user/mo",note:"Annual. Unlimited calling to US & Canada."},
+      {name:"Phone Pro-Global Select",price:"$20/user/mo",note:"Annual. Unlimited calling to 1 country of choice (45+ countries available)."},
+      {name:"Phone Power Pack",price:"$25/user/mo",note:"Adds call queue analytics, voicemail monitoring, supervisor tools"},
+      {name:"Zoom Contact Center",price:"From $69/agent/mo",note:"Omnichannel CC — public pricing available (rare for CCaaS). Annual billing."},
+      {name:"WFM add-on",price:"Add-on pricing",note:"Workforce management for contact center — separately priced"},
+      {name:"Zoom One Bundle",price:"Custom quote",note:"Bundles Phone + Meetings + CC into one platform deal"}
+    ]
+  }
+];
+
+let activeTier="all";
+
+function buildTabs(){
+  const c=document.getElementById('tabs');
+  tiers.forEach(t=>{
+    const b=document.createElement('button');
+    b.className='tab'+(t.id==="all"?' active':'');
+    b.textContent=t.label;
+    b.onclick=()=>{
+      activeTier=t.id;
+      document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+      b.classList.add('active');
+      render();
+    };
+    c.appendChild(b);
+  });
+}
+
+function render(){
+  const q=document.getElementById('search').value.toLowerCase();
+  const tierOrder=["Enterprise","Mid-Market","SMB","Developer","Legacy","UCaaS"];
+  const tierMeta={
+    "Enterprise":{label:"Enterprise Tier",cls:"ent"},
+    "Mid-Market":{label:"Mid-Market Tier",cls:"mid"},
+    "SMB":{label:"SMB Tier",cls:"smb"},
+    "Developer":{label:"Developer / API-First Tier",cls:"dev"},
+    "Legacy":{label:"Legacy / On-Premise Tier",cls:"leg"},
+    "UCaaS":{label:"UCaaS Extension Tier",cls:"ucs"}
+  };
+  const c=document.getElementById('content');
+  c.innerHTML='';
+  const filtered=platforms.filter(p=>{
+    const matchT=activeTier==="all"||p.tier===activeTier;
+    if(!q)return matchT;
+    const txt=(p.name+p.tier+JSON.stringify(p.features)+JSON.stringify(p.plans)+p.pricingModel).toLowerCase();
+    return matchT&&txt.includes(q);
+  });
+  if(!filtered.length){
+    c.innerHTML='<div class="no-results">No platforms match your search.</div>';
+    return;
+  }
+  const grouped={};
+  filtered.forEach(p=>{
+    if(!grouped[p.tier])grouped[p.tier]=[];
+    grouped[p.tier].push(p);
+  });
+  tierOrder.forEach(tier=>{
+    if(!grouped[tier])return;
+    const m=tierMeta[tier];
+    const sec=document.createElement('div');
+    sec.className='tier-section';
+    sec.innerHTML=`<div class="tier-header"><span class="tier-label">${m.label}</span><span class="tier-count">${grouped[tier].length} platform${grouped[tier].length>1?'s':''}</span></div>`;
+    const tw=document.createElement('div');
+    tw.className='tbl-wrap';
+    const tbl=document.createElement('table');
+    tbl.innerHTML=`<thead><tr>
+      <th style="width:130px">Platform</th>
+      <th style="width:240px">Full Features</th>
+      <th style="width:310px">Pricing Plans (Detail)</th>
+    </tr></thead>`;
+    const tb=document.createElement('tbody');
+    grouped[tier].forEach(p=>{
+      const tr=document.createElement('tr');
+      let featHtml='';
+      Object.entries(p.features).forEach(([cat,items])=>{
+        featHtml+=`<div class="feat-cat">${cat}</div><ul class="feat-list">${items.map(i=>`<li>${i}</li>`).join('')}</ul>`;
+      });
+      let planHtml=`<div class="price-model">${p.pricingModel}</div>`;
+      p.plans.forEach(pl=>{
+        planHtml+=`<div class="plan-row"><span class="plan-name">${pl.name}</span><span class="plan-price">${pl.price}</span></div>`;
+        if(pl.note)planHtml+=`<div style="font-size:11px;color:var(--color-text-secondary);margin-bottom:6px;margin-left:86px;line-height:1.5">${pl.note}</div>`;
+      });
+      tr.innerHTML=`
+        <td><div class="name">${p.name}</div>${p.aka?`<div class="sub">${p.aka}</div>`:''}<br><span class="badge ${m.cls}">${p.tier}</span></td>
+        <td>${featHtml}</td>
+        <td>${planHtml}</td>
+      `;
+      tb.appendChild(tr);
+    });
+    tbl.appendChild(tb);
+    tw.appendChild(tbl);
+    sec.appendChild(tw);
+    c.appendChild(sec);
+  });
+}
+
+buildTabs();
+render();
+</script>
